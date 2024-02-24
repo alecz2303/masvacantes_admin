@@ -2,6 +2,9 @@
 /public/build
 /public/hot
 /public/storage
+/public/.user.ini
+/public/php.ini
+/public/.htaccess
 /storage/*.key
 /vendor
 .env
@@ -16,3 +19,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+composer-setup.php
+composer.phar
