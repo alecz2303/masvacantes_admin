@@ -145,8 +145,8 @@ return [
 
         'widgets' => [
             'TCG\\Voyager\\Widgets\\UserDimmer',
-            'TCG\\Voyager\\Widgets\\PostDimmer',
-            'TCG\\Voyager\\Widgets\\PageDimmer',
+            //'TCG\\Voyager\\Widgets\\PostDimmer',
+            //'TCG\\Voyager\\Widgets\\PageDimmer',
             'App\\Widgets\\EmpresaDimmer',
         ],
 
@@ -184,7 +184,7 @@ return [
     |
     */
 
-    'primary_color' => '#22A7F0',
+    'primary_color' => '#e30081', //'#22A7F0',
 
     'show_dev_tips' => false, // Show development tip "How To Use:" in Menu and Settings
 

@@ -8,6 +8,9 @@ use TCG\Voyager\Database\Schema\SchemaManager;
 use TCG\Voyager\Database\Schema\Index;
 use TCG\Voyager\Database\Schema\Table;
 use TCG\Voyager\Database\Schema\Column;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Events\Dispatcher;
+use TCG\Voyager\Facades\Voyager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,8 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $loader = AliasLoader::getInstance();
-        $loader->alias(SchemaManager::class, \App\Voyager\SchemaManager::class);
+        //
     }
 
     /**
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
+        //Voyager::useModel('User', \App\Models\User::class);
     }
 }
