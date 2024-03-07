@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class User extends \TCG\Voyager\Models\User
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -33,7 +33,13 @@ class User extends \TCG\Voyager\Models\User
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
+        'nombre',
+        'apellidos',
+        'telefono',
+        'tipo',
+        'telefono2',
+        'tipo2'
     ];
 
     /**
@@ -54,17 +60,22 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public function getFullNameAttribute()
     {
         return "{$this->nombre} {$this->apellidos}";
     }
-    
+
     public function empresa(): HasOne
     {
         return $this->hasOne(Empresa::class);
     }
-    
+
+    public function estados(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class,'estado','id');
+    }
+
     public function getNombreEmpresaAttribute()
     {
         return "{$this->empresa->empresa}";

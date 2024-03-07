@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
+use App\Actions\MyAction;
+use TCG\Voyager\Facades\Voyager;
+use Illuminate\Events\Dispatcher;
+use TCG\Voyager\Actions\ViewAction;
+use TCG\Voyager\Actions\DeleteAction;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\ServiceProvider;
-use TCG\Voyager\Database\Schema\SchemaManager;
+use Illuminate\Support\Facades\Schema;
 use TCG\Voyager\Database\Schema\Index;
 use TCG\Voyager\Database\Schema\Table;
+use Illuminate\Support\ServiceProvider;
 use TCG\Voyager\Database\Schema\Column;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Events\Dispatcher;
-use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Database\Schema\SchemaManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +36,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         //Voyager::useModel('User', \App\Models\User::class);
+        // Voyager::addAction(\App\Actions\MyAction::class);
+        Voyager::replaceAction(ViewAction::class, MyAction::class);
     }
 }
