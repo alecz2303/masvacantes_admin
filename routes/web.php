@@ -15,12 +15,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Generate a CSV of all the routes
+ */
+Route::get('r', function()
+{
+    header('Content-Type: application/excel');
+    header('Content-Disposition: attachment; filename="routes.csv"');
+
+    $routes = Route::getRoutes();
+    $fp = fopen('php://output', 'w');
+    fputcsv($fp, ['METHOD', 'URI', 'NAME', 'ACTION']);
+    foreach ($routes as $route) {
+        fputcsv($fp, [head($route->methods()) , $route->uri(), $route->getName(), $route->getActionName()]);
+    }
+    fclose($fp);
+});
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
 Route::get('/', function () {
-    $user = User::find(34);
+    $user = User::find(1);
+    dd($user->hasRole('Admin'));
+
     dd($user->empresa->empresa);
     $posts = Post::all();
     Debugbar::info($posts);
