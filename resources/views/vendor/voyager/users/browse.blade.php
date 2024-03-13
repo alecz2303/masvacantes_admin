@@ -45,7 +45,10 @@
                     <div class="panel-body">
                         @if ($isServerSide)
                             <form method="get" class="form-search">
-                                <input type="hidden" name="tipo" value="{{ $_GET['tipo'] }}">
+                                @php
+                                    $tipo = (isset($_GET['tipo']))?$_GET['tipo']:'z';
+                                @endphp
+                                <input type="hidden" name="tipo" value="{{ $tipo }}">
                                 <div id="search-input">
                                     <div class="col-2">
                                         <select id="search_key" name="key">

@@ -37,14 +37,7 @@ Route::get('r', function()
 // });
 
 Route::get('/', function () {
-    $user = User::find(1);
-    dd($user->hasRole('Admin'));
-
-    dd($user->empresa->empresa);
-    $posts = Post::all();
-    Debugbar::info($posts);
-    Log::alert("message");
-    return view('home', compact('posts'));
+    return redirect('/admin');
 });
 
 Route::get('post/{slug}', function($slug){
