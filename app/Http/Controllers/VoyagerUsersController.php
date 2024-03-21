@@ -74,14 +74,14 @@ class VoyagerUsersController extends \TCG\Voyager\Http\Controllers\VoyagerBaseCo
                     $query = $model::select($dataType->name.'.*')->whereNotIn('role_id', [1,2,8])->where('id', $user->id);
                 }
             } else {
-                if (Auth::check()) {
-                    $user = User::first();
-                    if (Auth::user()->can('edit',$user)){
+                // if (Auth::check()) {
+                //     $user = User::first();
+                //     if (Auth::user()->can('edit',$user)){
                         $query = $model::select($dataType->name.'.*');
-                    } else {
-                        abort(403, "No tienes permiso de ver los usuarios.");
-                    }
-                }
+                //     } else {
+                //         abort(403, "No tienes permiso de ver los usuarios.");
+                //     }
+                // }
             }
 
 
