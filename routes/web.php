@@ -48,4 +48,7 @@ Route::get('post/{slug}', function($slug){
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('aspirantes', function(){
+        return view('aspirantes');
+    });
 });

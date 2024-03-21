@@ -5,7 +5,7 @@
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
-            <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }} mio titulo
+            <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
         @can('add', app($dataType->model_name))
             <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
@@ -43,7 +43,7 @@
             <div class="col-md-12">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        @if ($isServerSide)
+                        {{-- @if ($isServerSide)
                             <form method="get" class="form-search">
                                 @php
                                     $tipo = (isset($_GET['tipo']))?$_GET['tipo']:'z';
@@ -287,7 +287,93 @@
                                     'showSoftDeleted' => $showSoftDeleted,
                                 ])->links() }}
                             </div>
-                        @endif
+                        @endif --}}
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Genero</th>
+                                        <th>Edad</th>
+                                        <th>Estado</th>
+                                        <th>Ciudad</th>
+                                        <th>Disp Viajar</th>
+                                        <th>Disp Cambio Res</th>
+                                        <th>Area Interés</th>
+                                        <th>Estudios</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($candidatos as $data)
+                                        <tr>
+                                            <td>{{ $data->name }} {{ $data->nombre }} {{ $data->apellidos }}</td>
+                                            <td>
+                                                @php
+                                                    if ($data->genero==0) {
+                                                        echo "Hombre";
+                                                    } elseif ($data->genero==1) {
+                                                        echo "Mujer";
+                                                    } else {
+                                                        echo $data->genero;
+                                                    }
+                                                @endphp
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($data->fecha_nacimiento)->age }}_años</td>
+                                            <td>{{ $data->estado }}</td>
+                                            <td>{{ $data->ciudad }}</td>
+                                            <td>{{ ($data->viajar == 0) ? "Viajar-No" : "Viajar-Si" }}</td>
+                                            <td>{{ ($data->residencia == 0) ? "Cambio-No" : "Cambio-Si" }}</td>
+                                            <td>{{ $data->area }}</td>
+                                            <td>
+                                                @php
+                                                $mapeo = [
+                                                    '0' => 'Primaria',
+                                                    '1' => 'Secundaria',
+                                                    '2' => 'Bachillerato General',
+                                                    '3' => 'Educación Profesional Tecnológica',
+                                                    '4' => 'Bachillerato Tecnológico',
+                                                    '5' => 'Licenciatura',
+                                                    '6' => 'Especialidad',
+                                                    '7' => 'Maestría',
+                                                    '8' => 'Doctorado'
+                                                    // Puedes agregar más números y letras según sea necesario
+                                                ];
+
+                                                $elementos = explode('|', $data->estudio);
+
+                                                $arreglo = [];
+                                                foreach ($elementos as $elemento) {
+                                                    // Dividir el elemento en dos partes: número y nombre de la universidad
+                                                    $partes = explode(' - ', $elemento);
+                                                    // Verificar si hay al menos dos partes (número y nombre)
+                                                    if (count($partes) == 2) {
+                                                        // El nombre de la universidad es la segunda parte
+                                                        $nombre = $partes[1];
+                                                        // Cambiar los números a letras si existe un número y está en el mapeo
+                                                        $numero = is_numeric($partes[0]) && isset($mapeo[$partes[0]]) ? $mapeo[$partes[0]] : $partes[0];
+                                                        // Agregar al arreglo
+                                                        $arreglo[] = compact('numero', 'nombre');
+                                                    } else {
+                                                        // Si no hay dos partes, simplemente agregar el elemento al arreglo con un número vacío
+                                                        $arreglo[] = ['numero' => '', 'nombre' => $elemento];
+                                                    }
+                                                }
+                                                foreach ($arreglo as $item) {
+                                                    echo "{$item['numero']} - {$item['nombre']}<br>";
+                                                }
+                                                @endphp
+                                            </td>
+                                            <td class="no-sort no-click bread-actions">
+                                                <a class="btn btn-sm btn-warning pull-right" href="{{ route('voyager.candidatos.show', [$data->id]) }}">
+                                                    <i class="voyager-eye"></i> Ver
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -340,10 +426,21 @@
                     config('voyager.dashboard.data_tables', []))
                 , true) !!});
             @else
-                $('#search-input select').select2({
-                    minimumResultsForSearch: Infinity
-                });
+                // $('#search-input select').select2({
+                //     minimumResultsForSearch: Infinity
+                // });
             @endif
+
+            var table = $('#dataTable').DataTable({!! json_encode(
+                    array_merge([
+                        "order" => $orderColumn,
+                        "language" => __('voyager::datatable'),
+                        "columnDefs" => [
+                            ['targets' => 'dt-not-orderable', 'searchable' =>  false, 'orderable' => false],
+                        ],
+                    ],
+                    config('voyager.dashboard.data_tables', []))
+                , true) !!});
 
             @if ($isModelTranslatable)
                 $('.side-body').multilingual();

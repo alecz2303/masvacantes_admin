@@ -128,10 +128,10 @@
             @endif
         @endcan
         @can('browse', $dataTypeContent)
-        @php
+        {{-- @php
             $tipo = $_GET['tipo'];
-        @endphp
-        <a href="{{ route('voyager.'.$dataType->slug.'.index', ['tipo'=>$tipo]) }}" class="btn btn-warning">
+        @endphp --}}
+        <a href="{{ route('voyager.'.$dataType->slug.'.index') }}" class="btn btn-warning">
             <i class="glyphicon glyphicon-list"></i> <span class="hidden-xs hidden-sm">{{ __('voyager::generic.return_to_list') }}</span>
         </a>
         @endcan
@@ -330,8 +330,10 @@
                                                                 }
                                                             @endphp
                                                                 <tr>
-                                                                    <td>{{ $idioma->idiomas->idioma }}</td>
-                                                                    <td>{{ $idm }}</td>
+                                                                    @if ($idioma->idiomas)
+                                                                        <td>{{ $idioma->idiomas->idioma }}</td>
+                                                                        <td>{{ $idm }}</td>
+                                                                    @endif
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>

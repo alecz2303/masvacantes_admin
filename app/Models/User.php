@@ -3,14 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends \TCG\Voyager\Models\User
 {
@@ -24,6 +25,11 @@ class User extends \TCG\Voyager\Models\User
         $this->additional_attributes[] = 'full_name';
         $this->additional_attributes[] = 'nombre_empresa';
     }
+
+    public function getRoleIdBrowseAttribute()
+{
+    return $this->role_id ?? 'Candidato';
+}
 
     /**
      * The attributes that are mass assignable.
@@ -63,7 +69,12 @@ class User extends \TCG\Voyager\Models\User
 
     public function getFullNameAttribute()
     {
-        return "{$this->nombre} {$this->apellidos}";
+        if($this->nombre != ''){
+            $nombre = $this->nombre;
+        } elseif ($this->name != '') {
+            $nombre = $this->name;
+        }
+        return "{$nombre} {$this->apellidos}";
     }
 
     public function empresa(): HasOne
@@ -76,8 +87,21 @@ class User extends \TCG\Voyager\Models\User
         return $this->belongsTo(Estado::class,'estado','id');
     }
 
+    public function areas(): HasMany
+    {
+        return $this->hasMany(Area::class, 'area');
+    }
+
     public function getNombreEmpresaAttribute()
     {
         return "{$this->empresa->empresa}";
+    }
+
+    public function scopeCurrentUser($query)
+    {
+        if (Auth::user()->hasRole('Empresa')) {
+            # code...
+            return $query->whereNotIn('role_id', [1,3,4,5,6,7,8])->orWhereNull('role_id');
+        }
     }
 }
