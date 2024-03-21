@@ -31,11 +31,11 @@ class MyAction extends AbstractAction
 
     public function getDefaultRoute()
     {
-        $tipo = 'g';
-        if($_GET){
-            $tipo = $_GET['tipo'];
-        }
-;        return route('voyager.users.show', [$this->data->id,'tipo'=>$tipo]);
+        // $tipo = 'g';
+        // if($_GET['tipo']){
+        //     $tipo = $_GET['tipo'];
+        // }
+;        return route('voyager.users.show', [$this->data->id]);
     }
 
     public function shouldActionDisplayOnDataType()

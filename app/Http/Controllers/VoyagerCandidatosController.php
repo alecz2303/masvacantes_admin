@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use TCG\Voyager\Database\Schema\SchemaManager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
-class VoyagerUsersController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
+class VoyagerCandidatosController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
 {
     //***************************************
     //               ____
