@@ -292,6 +292,11 @@
                             <table id="dataTable" class="table table-hover">
                                 <thead>
                                     <tr>
+                                        @if($showCheckboxColumn)
+                                            <th class="dt-not-orderable">
+                                                <input type="checkbox" class="select_all">
+                                            </th>
+                                        @endif
                                         <th>Nombre</th>
                                         <th>Genero</th>
                                         <th>Edad</th>
@@ -307,6 +312,11 @@
                                 <tbody>
                                     @foreach ($candidatos as $data)
                                         <tr>
+                                            @if($showCheckboxColumn)
+                                                <td>
+                                                    <input type="checkbox" name="row_id" id="checkbox_{{ $data->getKey() }}" value="{{ $data->getKey() }}">
+                                                </td>
+                                            @endif
                                             <td>{{ $data->name }} {{ $data->nombre }} {{ $data->apellidos }}</td>
                                             <td>
                                                 @php
