@@ -3,13 +3,13 @@
 namespace App\Widgets;
 
 use App\Models\User;
-use App\Models\Empresa;
+use App\Models\Candidato;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Widgets\BaseDimmer;
 use Illuminate\Support\Facades\Auth;
 
-class EmpresaDimmer extends BaseDimmer
+class CandidatoDimmer extends BaseDimmer
 {
     /**
      * The configuration array.
@@ -24,18 +24,18 @@ class EmpresaDimmer extends BaseDimmer
      */
     public function run()
     {
-        $count = Empresa::count();
-        $string = trans_choice('Empresas', $count);
+        $count = Candidato::count();
+        $string = trans_choice('voyager::dimmer.candidato', $count);
 
         return view('voyager::dimmer', array_merge($this->config, [
-            'icon'   => 'voyager-news',
+            'icon'   => 'voyager-group',
             'title'  => "{$count} {$string}",
-            'text'   => __('dimmer.empresa_text', ['count' => $count, 'string' => Str::lower($string)]),
+            'text'   => __('voyager::dimmer.candidato_text', ['count' => $count, 'string' => Str::lower($string)]),
             'button' => [
-                'text' => __('dimmer.empresa_link_text'),
-                'link' => route('voyager.empresas.index'),
+                'text' => __('voyager::dimmer.candidato_link_text'),
+                'link' => route('voyager.candidatos.index'),
             ],
-            'image' => voyager_asset('images/widget-backgrounds/02.jpg'),
+            'image' => voyager_asset('images/widget-backgrounds/01.jpg'),
         ]));
     }
 
@@ -46,6 +46,6 @@ class EmpresaDimmer extends BaseDimmer
      */
     public function shouldBeDisplayed()
     {
-        return Auth::user()->can('browse', app(User::class));
+        return Auth::user()->can('browse', app(Candidato::class));
     }
 }

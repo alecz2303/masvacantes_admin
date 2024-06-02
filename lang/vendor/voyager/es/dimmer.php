@@ -12,4 +12,7 @@ return [
     'user'           => 'Usuario|Usuarios',
     'user_link_text' => 'Ver todos los usuarios',
     'user_text'      => 'Tiene :count :string en su base de datos. Haga clic en el botón de abajo para ver todos los usuarios.',
+    'candidato'           => 'Candidato|Candidatos',
+    'candidato_link_text' => 'Ver todos los Candidatos',
+    'candidato_text'      => 'Tiene :count :string en su base de datos. Haga clic en el botón de abajo para ver todos los Candidatos.',
 ];

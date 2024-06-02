@@ -149,6 +149,7 @@ return [
             //'TCG\\Voyager\\Widgets\\PageDimmer',
             'App\\Widgets\\EmpresaDimmer',
             'App\\Widgets\\UserDimmer',
+            'App\\Widgets\\CandidatoDimmer',
         ],
 
     ],
