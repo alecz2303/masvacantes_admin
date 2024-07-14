@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         //Voyager::useModel('User', \App\Models\User::class);
-        // Voyager::addAction(\App\Actions\MyAction::class);
+        Voyager::addAction(\App\Actions\VerEmpleo::class);
         Voyager::replaceAction(ViewAction::class, MyAction::class);
     }
 }
