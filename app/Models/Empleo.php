@@ -22,6 +22,11 @@ class Empleo extends Model
         parent::save();
     }
 
+    public function postulaciones()
+    {
+        return $this->hasMany(Postulacion::class, 'id_empleo');
+    }
+
     public function scopeCurrentUser($query)
     {
         if (!Auth::user()->hasRole('Admin')) {
