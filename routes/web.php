@@ -46,7 +46,7 @@ Route::get('post/{slug}', function($slug){
 });
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['check.empresa']], function () {
     Voyager::routes();
     Route::get('aspirantes', function(){
         return view('aspirantes');
