@@ -19,14 +19,10 @@ class CheckEmpresa
     public function handle(Request $request, Closure $next)
     {
 
-        if($request->is('admin/login')){
-            return $next($request);
-        }
-
         // Obtén el usuario autenticado
         $user = Auth::user();
 
-        if ($user->role->name === 'Empresa') {
+        if ($user && $user->role->name === 'Empresa') {
             // Excluye la ruta de creación de empresa de la verificación
             if ($request->is('admin/empresas/create') || $request->is('admin/logout') || $request->is('admin/empresas*')) {
                 return $next($request);
