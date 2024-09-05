@@ -32,7 +32,7 @@ class Empresa extends Model
 
     public function scopeCurrentUser($query)
     {
-        if (!Auth::user()->hasRole('Admin')) {
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('adminmv')) {
             # code...
             return $query->where('user_id', Auth::user()->id);
         }
