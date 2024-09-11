@@ -22,6 +22,12 @@ class CheckEmpresa
         // Obtén el usuario autenticado
         $user = Auth::user();
 
+        if ($user && $user->role_id === null) {
+            // Usar la ruta logout
+            Auth::logout();
+            return redirect()->away('https://candidato.masvacantes.com/login');
+        }
+
         if ($user && $user->role->name === 'Empresa') {
             // Excluye la ruta de creación de empresa de la verificación
             if ($request->is('admin/empresas/create') || $request->is('admin/logout') || $request->is('admin/empresas*')) {
